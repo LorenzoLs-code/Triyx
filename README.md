@@ -7,4 +7,4 @@ Its not the best Game Engine but it's will get better and better.
 The Project is subdivided in **Versions**. Each Version is like it's own project and has it's **own folder wich a readme and License** etc.
 
 ## Versions:
-[V1](V1/)
+[V1](V1/): [Readme](V1/README.MD), [License](V1/LICENSE.md)
