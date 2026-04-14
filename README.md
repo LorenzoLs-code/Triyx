@@ -8,3 +8,8 @@ The Project is subdivided in **Versions**. Each Version is like it's own project
 
 ## Versions:
 **[V1](V1/)**: [Readme](V1/README.md), [License](V1/LICENSE)
+
+## Game engine development skills
+⭐ = completely new territory for me
+⭐⭐
+| Version |
