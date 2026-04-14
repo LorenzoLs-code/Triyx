@@ -18,8 +18,9 @@ The Project is subdivided in **Versions**. Each Version is like it's own project
 
 ⭐⭐⭐⭐⭐ = I konw the code and logik
 
+The table provides information on how experienced I am at the beginning of the development.
 | Version | C++ | GLSL | OpenGL |
 |----|------|-------|-------|
 |V1|⭐|⭐|⭐|
 
-**[V1](V1/)**: [Readme](V1/README.md), [License](V1/LICENSE)
+### **[V1](V1/)**: [Readme](V1/README.md), [License](V1/LICENSE)
