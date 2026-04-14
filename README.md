@@ -1,2 +1,2 @@
 # LittleStar
-A C++ Game Engine 
+A 3D C++ Game Engine 
