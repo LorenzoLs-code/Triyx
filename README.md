@@ -4,7 +4,7 @@ Its not the best [Game Engine][GameEngine_] but it will get better and better.
 
 ## Repo Structure 
 ### Versions
-The Project is subdivided in **Versions**. Each Version is like it's own project and has it's **own folder wich a readme and [License][LICENSE_]** etc.
+The Project is subdivided in **Versions**. Each Version is like it's own project and has it's **own folder with a readme and [License][LICENSE_]** etc.
 
 ## Versions:
 
