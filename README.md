@@ -4,7 +4,7 @@ Its not the best [Game Engine][GameEngine_] but it will get better and better.
 
 ## Repo Structure 
 ### Versions
-The Project is subdivided in **Versions**. Each Version is like it's own project and has it's **own folder wich a readme and License** etc.
+The Project is subdivided in **Versions**. Each Version is like it's own project and has it's **own folder wich a readme and [License[LICENSE_]** etc.
 
 ## Versions:
 
@@ -29,3 +29,4 @@ The table provides information on how experienced I am at the beginning of the d
 [3D_]: https://en.wikipedia.org/wiki/3D
 [C++_]: https://en.wikipedia.org/wiki/C%2B%2B
 [GameEngine_]: https://en.wikipedia.org/wiki/Game_engine
+[LICENSE_]: https://en.wikipedia.org/wiki/License
