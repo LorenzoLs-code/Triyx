@@ -1,2 +1,2 @@
 # LittleStar V1
-For this version is the goal to lear how a game engine realy works.
+For this version is the goal to learn how a game engine realy works.
