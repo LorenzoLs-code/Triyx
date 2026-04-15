@@ -1,6 +1,6 @@
 # LittleStar
-LittleStar is a 3D C++ Game Engine.
-Its not the best Game Engine but it's will get better and better.
+LittleStar is a [3D][3D_] [C++][C++_] [Game Engine][GameEngine_].
+Its not the best [Game Engine_] but it will get better and better.
 
 ## Repo Structure 
 ### Versions
@@ -24,3 +24,8 @@ The table provides information on how experienced I am at the beginning of the d
 |V1|⭐|⭐|⭐|
 
 ### **[V1](V1/)**: [Readme](V1/README.md), [License](V1/LICENSE)
+
+
+[3D_]: https://en.wikipedia.org/wiki/3D
+[C++_]: https://en.wikipedia.org/wiki/C%2B%2B
+[GameEngine]: https://en.wikipedia.org/wiki/Game_engine
