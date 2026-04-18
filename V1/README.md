@@ -1,2 +1,57 @@
 # LittleStar V1
-For this version is the goal to learn C++ and how a Game Engine realy works.
+
+The goal of V1 is to learn [C++][C++_] and understand how a [3D][3D_] [game engine][GameEngine_] really works.
+Every system is built from scratch to understand it.
+
+## V1 Roadmap
+- [ ] Window creation (GLFW)
+- [ ] First triangle (OpenGL)
+- [ ] Rendering (3D Models, Textures)
+- [ ] Input (Keyboard, Mouse, Controller)
+- [ ] Audio (Sound effects, Music)
+- [ ] Event System
+- [ ] Physics & Collision
+- [ ] Scene Manager
+- [ ] Scripting (Code execution in game)
+
+## Building
+
+First install the required [dependencies](#dependencies), if you don't already did it.
+
+### Linux (tested)
+```bash
+git clone https://github.com/LorenzoLs-code/LittleStar
+cd LittleStar/V1
+mkdir build && cd build
+cmake ..
+make
+./LittleStar
+```
+
+### Windows (untested)
+Should work with CMake and MinGW or MSVC:
+```bash
+mkdir build && cd build
+cmake -G "MinGW Makefiles" ..
+mingw32-make
+LittleStar.exe
+```
+
+### Mac (untested)
+Should work with CMake and Xcode tools:
+```bash
+mkdir build && cd build
+cmake ..
+make
+./LittleStar
+```
+
+## Dependencies
+- C++17
+- OpenGL
+- GLFW3
+- GLEW
+
+[3D_]: https://en.wikipedia.org/wiki/3D
+[C++_]: https://en.wikipedia.org/wiki/C%2B%2B
+[GameEngine_]: https://en.wikipedia.org/wiki/Game_engine
