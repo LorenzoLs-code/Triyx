@@ -14,9 +14,9 @@ The Project is subdivided in **Versions**. Each Version is like it's own project
 
 ⭐⭐⭐ = that makes sense
 
-⭐⭐⭐⭐ = I konw what I need but what was the code
+⭐⭐⭐⭐ = I know what I need but what was the code
 
-⭐⭐⭐⭐⭐ = I konw the code and logik
+⭐⭐⭐⭐⭐ = I know the code and logik
 
 The table provides information on how experienced I am at the beginning of the development.
 | Version | C++ | GLSL | OpenGL |
