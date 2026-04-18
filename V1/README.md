@@ -46,6 +46,9 @@ make
 ./LittleStar
 ```
 
+> Windows and Mac builds are untested.
+> If you get it working, please open an Issue!
+
 ## Dependencies
 - C++17
 - OpenGL
