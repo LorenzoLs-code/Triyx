@@ -14,6 +14,13 @@ Every system is built from scratch to understand it.
 - [ ] Scene Manager
 - [ ] Scripting (Code execution in game)
 
+## Contributing
+
+[V1](../V1) is a personal learning project.
+Pull Requests are not accepted for [V1](../V1).
+
+However, Issues and suggestions are very welcome!
+
 ## Building
 
 First install the required [dependencies](#dependencies), if you don't already did it.
