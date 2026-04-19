@@ -1,22 +1,20 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
-const char* vertexShaderSource = R"(
-    #version 330 core
-    layout (location = 0) in vec3 aPos;
-    void main() {
-        gl_Position = vec4(aPos, 1.0);
+std::string loadFile(const char* path) {
+    std::ifstream file(path); // open file
+    if(!file.is_open()) { // check if the file was opened
+        std::cout << "Failed to open file: " << path << std::endl;
+        return "";
     }
-)";
-
-const char* fragmentShaderSource = R"(
-    #version 330 core
-    out vec4 FragColor;
-    void main() {
-        FragColor = vec4(1.0, 0.5, 0.0, 1.0);
-    }
-)";
+    std::stringstream buffer; // make a storage for the data
+    buffer << file.rdbuf(); // put the data in the buffer
+    file.close(); // close file
+    return buffer.str(); // make the buffer into a string and return it
+}
 
 int main() {
     glfwInit(); // initialize GLFW
@@ -25,6 +23,14 @@ int main() {
     glewInit(); // initialize glew
 
     // == Make a shader programm ==
+    //load vertexShaderSource
+    std::string vertexShaderCode = loadFile("../shaders/vertex.glsl");
+    const char* vertexShaderSource = vertexShaderCode.c_str();
+
+    //load fragmentShaderSource
+    std::string fragmentShaderCode = loadFile("../shaders/fragment.glsl");
+    const char* fragmentShaderSource = fragmentShaderCode.c_str();
+
     // vertex shader
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER); // create vertex shader variable
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL); // read the shader code and assign it to the shader/variable
@@ -42,21 +48,21 @@ int main() {
     glLinkProgram(shaderProgram); // make it usable
     // ==  ==  ==
 
-    // Vertices cords (the courners for the triangle)
+    // Vertices cords (the corners for the triangle)
     float vertices[] = {
-         0.0f,  0.5f, 0.0f, // (first courner)
-        -0.5f, -0.5f, 0.0f, // (second courner)
-         0.5f, -0.5f, 0.0f // (tird courner)
+         0.0f,  0.5f, 0.0f, // (first corner)
+        -0.5f, -0.5f, 0.0f, // (second corner)
+         0.5f, -0.5f, 0.0f // (third corner)
     };
 
-    unsigned int VBO, VAO; // creare ids(pointers) to send the vertice(VBO) and what to do with the vertices (what vertices is conected to what vertice)(VAO) to the GPU
-    glGenVertexArrays(1, &VAO); // define VAO as "blue print" for the tringel
+    unsigned int VBO, VAO; // create ids(pointers) to send the vertice(VBO) and what to do with the vertices (what vertices is connected to what vertice)(VAO) to the GPU
+    glGenVertexArrays(1, &VAO); // define VAO as "blue print" for the triangle
     glGenBuffers(1, &VBO); // define VBO as a storage in the gpu
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO); // say the storage is for vertices
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW); // send data to the gpu
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); // say the gpu the data it resived
-    glEnableVertexAttribArray(0); // activat Buffer slot 0
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0); // say the gpu the data it received
+    glEnableVertexAttribArray(0); // activate Buffer slot 0
 
     // Game Loop
     while (!glfwWindowShouldClose(window)) {
