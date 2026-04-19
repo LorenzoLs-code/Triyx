@@ -17,6 +17,7 @@ This policy applies to:
 * Banners
 * Visual identity
 * Official project graphics
+* Official project screenshots 
 
 ---
 
