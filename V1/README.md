@@ -37,6 +37,9 @@ Should work with CMake and MinGW or MSVC:
 mkdir build && cd build
 cmake -G "MinGW Makefiles" ..
 mingw32-make
+```
+Execute:
+```bash
 LittleStar.exe
 ```
 
@@ -46,6 +49,9 @@ Should work with CMake and Xcode tools:
 mkdir build && cd build
 cmake ..
 make
+```
+Execute:
+```bash
 ./LittleStar
 ```
 
