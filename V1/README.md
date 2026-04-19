@@ -4,8 +4,8 @@ The goal of V1 is to learn [C++][C++_] and understand how a [3D][3D_] [game engi
 Every system is built from scratch to understand it.
 
 ## V1 Roadmap
-- [ ] Window creation (GLFW)
-- [ ] First triangle (OpenGL)
+- [x] Window creation (GLFW)
+- [x] First triangle (OpenGL)
 - [ ] Rendering (3D Models, Textures)
 - [ ] Input (Keyboard, Mouse, Controller)
 - [ ] Audio (Sound effects, Music)
@@ -25,6 +25,9 @@ cd LittleStar/V1
 mkdir build && cd build
 cmake ..
 make
+```
+Execute:
+```bash
 ./LittleStar
 ```
 
