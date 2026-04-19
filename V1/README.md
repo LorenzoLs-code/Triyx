@@ -43,6 +43,9 @@ Execute:
 LittleStar.exe
 ```
 
+> The Windows build is untested.
+> If you get it working, please open an Issue!
+
 ### Mac (untested)
 Should work with CMake and Xcode tools:
 ```bash
@@ -55,7 +58,7 @@ Execute:
 ./LittleStar
 ```
 
-> Windows and Mac builds are untested.
+> The Mac build is untested.
 > If you get it working, please open an Issue!
 
 ## Dependencies
