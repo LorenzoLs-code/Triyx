@@ -22,7 +22,7 @@ The Project is subdivided in **Versions**. Each Version is like it's own project
 
 ⭐⭐⭐⭐⭐ = I know the code and logik
 
-The table provides information on how experienced I am at the beginning of the development.
+The table provides information on how experienced I was at the beginning of the development.
 | Version | C++ | GLSL | OpenGL |
 |----|------|-------|-------|
 |V1|⭐|⭐|⭐|
