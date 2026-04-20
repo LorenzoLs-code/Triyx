@@ -1,5 +1,5 @@
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <GLFW/glfw3.h> // To make a Window
+#include <GL/glew.h> // To render whats in the window 
 #include <iostream>
 #include <fstream>
 #include <sstream>
