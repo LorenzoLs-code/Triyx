@@ -7,7 +7,12 @@ set(OpenGL_GL_PREFERENCE LEGACY)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 
-add_executable(LittleStar src/main.cpp)
+add_executable(LittleStar 
+    src/main.cpp
+    src/external/stb_image.cpp
+)
+
+target_include_directories(LittleStar PRIVATE src/external)
 
 target_link_libraries(LittleStar 
     OpenGL::GL 
