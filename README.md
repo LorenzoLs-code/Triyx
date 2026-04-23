@@ -2,8 +2,8 @@
 LittleStar is a [3D][3D_] [C++][C++_] [Game Engine][GameEngine_].
 Its not the best [game engine][GameEngine_], but it will improve with every version.
 
-## Big News -- The First Triangle in V1 !!! --
-![screenshot](assets/V1/screenshots/FirstTriangle.png)
+## Big News -- Triangle with a Texture in V1 !!! --
+![screenshot](assets/V1/screenshots/TriangleWithTexture.png)
 to go to V1 click [here](V1/)
 
 ## Repo Structure 
