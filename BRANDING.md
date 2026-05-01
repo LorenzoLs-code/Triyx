@@ -1,9 +1,9 @@
-# LittleStar Branding Policy
+# Triyx Branding Policy
 
-This document defines the usage rules for the **LittleStar** name, logo, icon, and visual identity.
+This document defines the usage rules for the **Triyx** name, logo, icon, and visual identity.
 
-The LittleStar project source code may use separate licenses depending on the version.
-Those licenses do **not** automatically apply to the LittleStar brand assets.
+The Triyx project source code may use separate licenses depending on the version.
+Those licenses do **not** automatically apply to the Triyx brand assets.
 
 ---
 
@@ -11,7 +11,7 @@ Those licenses do **not** automatically apply to the LittleStar brand assets.
 
 This policy applies to:
 
-* The name **LittleStar**
+* The name **Triyx**
 * Official logos
 * Icons
 * Banners
@@ -25,8 +25,8 @@ This policy applies to:
 
 You may:
 
-* Share the official LittleStar logo when referring to the project
-* Use the logo in videos, articles, reviews, or discussions about LittleStar
+* Share the official Triyx logo when referring to the project
+* Use the logo in videos, articles, reviews, or discussions about Triyx
 * Link to the official repository using the logo
 * Use unmodified logos to support or promote the project
 
@@ -36,11 +36,11 @@ You may:
 
 You may not:
 
-* Claim ownership of the LittleStar brand assets
+* Claim ownership of the Triyx brand assets
 * Modify the logo and present it as the official logo
-* Use the logo to impersonate the LittleStar project
+* Use the logo to impersonate the Triyx project
 * Use the name or logo in misleading commercial products
-* Present forks as the official LittleStar project without permission
+* Present forks as the official Triyx project without permission
 
 ---
 
@@ -58,12 +58,12 @@ However:
 
 ## Permission Requests
 
-If you would like to use the LittleStar branding outside the cases above, please contact the project owner.
+If you would like to use the Triyx branding outside the cases above, please contact the project owner.
 
 ---
 
 ## Ownership
 
-Copyright © 2026 LittleStar
+Copyright © 2026 Triyx
 
-All rights to the LittleStar branding remain with the project owner.
+All rights to the Triyx branding remain with the project owner.

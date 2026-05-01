@@ -1,4 +1,4 @@
-# LittleStar V1
+# Triyx V1
 
 The goal of V1 is to learn [C++][C++_] and understand how a [3D][3D_] [game engine][GameEngine_] really works.
 Every system is built from scratch to understand it.
@@ -27,15 +27,15 @@ First install the required [dependencies](#dependencies), if you don't already d
 
 ### Linux (tested)
 ```bash
-git clone https://github.com/LorenzoLs-code/LittleStar
-cd LittleStar/V1
+git clone https://github.com/LorenzoLs-code/Triyx
+cd Triyx/V1
 mkdir build && cd build
 cmake ..
 make
 ```
 Execute:
 ```bash
-./LittleStar
+./Triyx
 ```
 
 ### Windows (untested)
@@ -47,7 +47,7 @@ mingw32-make
 ```
 Execute:
 ```bash
-LittleStar.exe
+Triyx.exe
 ```
 
 > The Windows build is untested.
@@ -62,7 +62,7 @@ make
 ```
 Execute:
 ```bash
-./LittleStar
+./Triyx
 ```
 
 > The Mac build is untested.
