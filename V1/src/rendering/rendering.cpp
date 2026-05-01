@@ -1,6 +1,7 @@
 #include "rendering.hpp"
 #include "../external/stb_image.h" // for reading textures 
 
+#include <map>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -19,20 +20,45 @@ std::string rendering::loadShader(const char* path) {
 }
 
 rendering::rendering() {
+    glewInit(); // initialize glew
+
     // Vertices cords for the start triangels (the corners for the triangle)
     float startVertices[] = {
     // X      Y      Z     U     V
      0.0f,  0.5f, 0.0f, 0.5f, 1.0f,
     -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
-    0.5f, -0.5f, 0.0f, 1.0f, 0.0f
+     0.5f, -0.5f, 0.0f, 1.0f, 0.0f
+    };
+    unsigned int startIndices[] = {
+     0, 1, 2,  0, 2, 3,
+     4, 5, 6,  4, 6, 7,  
+     0, 4, 7,  0, 7, 3, 
+     1, 5, 6,  1, 6, 2, 
+     3, 7, 6,  3, 6, 2, 
+     0, 4, 5,  0, 5, 1 
     };
 
     verticesChanged = false;
+ 
+    /* ==============
+        load Texture
+       ============== */
+    glGenTextures(1, &mainTexture);
+    glBindTexture(GL_TEXTURE_2D, mainTexture);
 
-    /* ==========================
-        Preparation for Vertices
-       ========================== */
-    glewInit(); // initialize glew
+
+    int width, height, channels;
+    unsigned char* data = stbi_load("../assets/textures/test2.png", &width, &height, &channels, 0);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    stbi_image_free(data);
+
+    /* ======================================
+        Preparation for Vertices and Indices
+       ====================================== */
+    // -- Vertices --
     glGenVertexArrays(1, &VAO); // define VAO as "blue print" for the triangle
     glGenBuffers(1, &VBO); // define VBO as a storage in the gpu
     glBindVertexArray(VAO);
@@ -44,21 +70,11 @@ rendering::rendering() {
 
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float))); // say the gpu how to interpret data it received, in this case slot 1 = texture 3-4(U,V)
     glEnableVertexAttribArray(1); // activate Buffer slot 1
-
-
-    glGenTextures(1, &mainTexture); // say &texture is for a texture
-    glBindTexture(GL_TEXTURE_2D, mainTexture); // say texture is 2D
-
-    int width, height, channels; // create vars for the width height an channels(R,G,B / R,G,B,A)
-    unsigned char* textureData = stbi_load("../assets/textures/test2.png", &width, &height, &channels, 0);
-
-    if (!textureData) {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    stbi_image_free(textureData);
+    
+    // -- Indices --
+    glGenBuffers(1, &EBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(startIndices), startIndices, GL_DYNAMIC_DRAW);
 
         
     /* =========================
@@ -88,8 +104,22 @@ rendering::rendering() {
 
 int rendering::update() {
     if(verticesChanged) {
-        verticesMan.objects_to_vertices();
-        glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(float), vertices.data());
+        verticesMan.objects_to_Data();
+
+        unsigned V_size = vertices.size();
+        if(VBO_size_old < V_size) {
+            glBindBuffer(GL_ARRAY_BUFFER, VBO); // say the storage is for vertices
+            glBufferData(GL_ARRAY_BUFFER, V_size * sizeof(float), vertices.data(), GL_DYNAMIC_DRAW); // send data to the gpu
+            VBO_size_old = V_size;
+        } else {glBufferSubData(GL_ARRAY_BUFFER, 0, vertices.size() * sizeof(float), vertices.data());}
+
+        unsigned I_size = indices.size();
+        if(EBO_size_old < I_size) {
+            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, I_size * sizeof(unsigned int), indices.data(), GL_DYNAMIC_DRAW);
+            EBO_size_old = I_size;
+        } else {glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, indices.size() * sizeof(unsigned int), indices.data());}
+        
         verticesChanged = false;
     };
     glClear(GL_COLOR_BUFFER_BIT);
@@ -97,11 +127,11 @@ int rendering::update() {
     glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
     glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_2D, mainTexture);
-    glDrawArrays(GL_TRIANGLES, 0, vertices.size() / 5);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     return 0;
 }
 
-// verticesManager funktions
+// verticesManager functions
 int rendering::verticesManager::add(rendering::object object) {
     parent.objects.push_back(object); // add object to vertices(vector) 
     parent.verticesChanged = true; // say the vertices has changed
@@ -118,29 +148,67 @@ void rendering::verticesManager::clear() {
     parent.verticesChanged = true; // say the vertices has changed
 };
 
-void rendering::verticesManager::objects_to_vertices() { // a big loop to convert the objects to vertices
+void rendering::verticesManager::objects_to_Data() { // a big loop to converts objects to Data
+    parent.vertices.clear();
+    parent.indices.clear();
+    
+    unsigned int vertices_index_counter = 0; 
+    std::map<std::tuple<float, float, float>, unsigned int> pointIndex;
+    float x,y,z;
+
     for(const auto& obj : parent.objects) {
+        pointIndex.clear();
         for(const auto& tri : obj.triangles) {
             // point A
-            parent.vertices.push_back(tri.a.x);
-            parent.vertices.push_back(tri.a.y);
-            parent.vertices.push_back(tri.a.z);
-            parent.vertices.push_back(tri.a.u);
-            parent.vertices.push_back(tri.a.v);
+            x = tri.a.x;
+            y = tri.a.y;
+            z = tri.a.z;
+            if(pointIndex.find({x, y, z}) == pointIndex.end()) {
+                parent.vertices.push_back(x);
+                parent.vertices.push_back(y);
+                parent.vertices.push_back(z);
+                parent.vertices.push_back(tri.a.u);
+                parent.vertices.push_back(tri.a.v);
+                
+                pointIndex[{x, y, z}] = vertices_index_counter;
+                vertices_index_counter += 1;
+            }
+
+            parent.indices.push_back(pointIndex[{x, y, z}]);
 
             // point B
-            parent.vertices.push_back(tri.b.x);
-            parent.vertices.push_back(tri.b.y);
-            parent.vertices.push_back(tri.b.z);
-            parent.vertices.push_back(tri.b.u);
-            parent.vertices.push_back(tri.b.v);
+            x = tri.b.x;
+            y = tri.b.y;
+            z = tri.b.z;
+            if(pointIndex.find({x, y, z}) == pointIndex.end()) {
+                parent.vertices.push_back(x);
+                parent.vertices.push_back(y);
+                parent.vertices.push_back(z);
+                parent.vertices.push_back(tri.b.u);
+                parent.vertices.push_back(tri.b.v);
+                
+                pointIndex[{x, y, z}] = vertices_index_counter;
+                vertices_index_counter += 1;
+            }
+
+            parent.indices.push_back(pointIndex[{x, y, z}]);
     
             // point C
-            parent.vertices.push_back(tri.c.x);
-            parent.vertices.push_back(tri.c.y);
-            parent.vertices.push_back(tri.c.z);
-            parent.vertices.push_back(tri.c.u);
-            parent.vertices.push_back(tri.c.v);
+            x = tri.c.x;
+            y = tri.c.y;
+            z = tri.c.z;
+            if(pointIndex.find({x, y, z}) == pointIndex.end()) {
+                parent.vertices.push_back(x);
+                parent.vertices.push_back(y);
+                parent.vertices.push_back(z);
+                parent.vertices.push_back(tri.c.u);
+                parent.vertices.push_back(tri.c.v);
+                
+                pointIndex[{x, y, z}] = vertices_index_counter;
+                vertices_index_counter += 1;
+            }
+
+            parent.indices.push_back(pointIndex[{x, y, z}]);
         };
     };
 };

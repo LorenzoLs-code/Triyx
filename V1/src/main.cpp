@@ -13,7 +13,40 @@ int main() {
     GLFWwindow* window = glfwCreateWindow(800, 600, "LittleStar", NULL, NULL); // Create a window
     glfwMakeContextCurrent(window); // show the window
     rendering render;
+    
+    /* ======
+        Cube
+       ====== */
+    rendering::object cube;
 
+    // Help func - create Point
+    auto p = [](float x, float y, float z, float u, float v) {
+        return rendering::verticesPoint{x, y, z, u, v};
+    };
+
+    // 8 corners of the cube, each side as 2 triangles
+    // Front (z = +0.5)
+    cube.triangles.push_back({ p(-0.5f,  0.5f,  0.5f, 0,1), p(-0.5f, -0.5f,  0.5f, 0,0), p( 0.5f, -0.5f,  0.5f, 1,0) });
+    cube.triangles.push_back({ p(-0.5f,  0.5f,  0.5f, 0,1), p( 0.5f, -0.5f,  0.5f, 1,0), p( 0.5f,  0.5f,  0.5f, 1,1) });
+    // Rear (z = -0.5)
+    cube.triangles.push_back({ p( 0.5f,  0.5f, -0.5f, 0,1), p( 0.5f, -0.5f, -0.5f, 0,0), p(-0.5f, -0.5f, -0.5f, 1,0) });
+    cube.triangles.push_back({ p( 0.5f,  0.5f, -0.5f, 0,1), p(-0.5f, -0.5f, -0.5f, 1,0), p(-0.5f,  0.5f, -0.5f, 1,1) });
+    // Left (x = -0.5)
+    cube.triangles.push_back({ p(-0.5f,  0.5f, -0.5f, 0,1), p(-0.5f, -0.5f, -0.5f, 0,0), p(-0.5f, -0.5f,  0.5f, 1,0) });
+    cube.triangles.push_back({ p(-0.5f,  0.5f, -0.5f, 0,1), p(-0.5f, -0.5f,  0.5f, 1,0), p(-0.5f,  0.5f,  0.5f, 1,1) });
+    // Right (x = +0.5)
+    cube.triangles.push_back({ p( 0.5f,  0.5f,  0.5f, 0,1), p( 0.5f, -0.5f,  0.5f, 0,0), p( 0.5f, -0.5f, -0.5f, 1,0) });
+    cube.triangles.push_back({ p( 0.5f,  0.5f,  0.5f, 0,1), p( 0.5f, -0.5f, -0.5f, 1,0), p( 0.5f,  0.5f, -0.5f, 1,1) });
+    // Top (y = +0.5)
+    cube.triangles.push_back({ p(-0.5f,  0.5f, -0.5f, 0,1), p(-0.5f,  0.5f,  0.5f, 0,0), p( 0.5f,  0.5f,  0.5f, 1,0) });
+    cube.triangles.push_back({ p(-0.5f,  0.5f, -0.5f, 0,1), p( 0.5f,  0.5f,  0.5f, 1,0), p( 0.5f,  0.5f, -0.5f, 1,1) });
+    // Bottom (y = -0.5)
+    cube.triangles.push_back({ p(-0.5f, -0.5f,  0.5f, 0,1), p(-0.5f, -0.5f, -0.5f, 0,0), p( 0.5f, -0.5f, -0.5f, 1,0) });
+    cube.triangles.push_back({ p(-0.5f, -0.5f,  0.5f, 0,1), p( 0.5f, -0.5f, -0.5f, 1,0), p( 0.5f, -0.5f,  0.5f, 1,1) });
+
+    render.verticesMan.add(cube);
+
+    
     // Game Loop
     while (!glfwWindowShouldClose(window)) {
         render.update();

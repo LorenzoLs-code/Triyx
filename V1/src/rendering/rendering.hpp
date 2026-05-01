@@ -4,13 +4,16 @@
 #include <GLFW/glfw3.h>
 
 #include <vector>
+#include <map>
 #include <string>
+
 
 class rendering {
 private:
     bool verticesChanged;
 
-    unsigned int VBO, VAO;
+    unsigned int VBO, VAO, EBO;
+    unsigned int VBO_size_old, EBO_size_old;
     unsigned int shaderProgram;
     unsigned int mainTexture;
 
@@ -31,7 +34,7 @@ public:
         verticesPoint b;
         verticesPoint c;
     };
-
+    
     struct object{
         std::vector<triangle> triangles;
     };
@@ -39,6 +42,7 @@ public:
     std::vector<object> objects;
 
     std::vector<float> vertices;
+    std::vector<unsigned int> indices;
     
     rendering();
     int update();
@@ -48,12 +52,10 @@ public:
         rendering& parent;
     public:
         verticesManager(rendering& p) : parent(p) {}
-        object& get_object(int);
-        int add(object);
-        void remove(int);
+        int add(object object);
+        void remove(int index);
         void clear();
-        void objects_to_vertices();
+        void objects_to_Data();
     };
-    
     verticesManager verticesMan{*this};
 };
