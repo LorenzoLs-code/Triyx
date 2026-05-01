@@ -10,7 +10,7 @@
 
 int main() {
     glfwInit(); // initialize GLFW
-    GLFWwindow* window = glfwCreateWindow(800, 600, "LittleStar", NULL, NULL); // Create a window
+    GLFWwindow* window = glfwCreateWindow(800, 600, "Triyx", NULL, NULL); // Create a window
     glfwMakeContextCurrent(window); // show the window
     rendering render;
     
