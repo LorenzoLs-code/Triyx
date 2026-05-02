@@ -10,9 +10,22 @@
 
 int main() {
     glfwInit(); // initialize GLFW
-    GLFWwindow* window = glfwCreateWindow(800, 600, "Triyx", NULL, NULL); // Create a window
+    int startWindowWidth = 800;
+    int startWindowHeight = 600;
+    GLFWwindow* window = glfwCreateWindow(startWindowWidth, startWindowHeight, "Triyx", NULL, NULL); // Create a window
     glfwMakeContextCurrent(window); // show the window
     rendering render;
+    render.windowHeight = startWindowWidth; render.windowHeight = startWindowHeight;
+
+    glfwSetWindowUserPointer(window, &render);
+
+    glfwSetFramebufferSizeCallback(window, [](GLFWwindow* window, int width, int height) {
+        glViewport(0, 0, width, height);
+        rendering* render = (rendering*)glfwGetWindowUserPointer(window);
+        render->windowWidth  = width;
+        render->windowHeight = height;
+    });
+
     glEnable(GL_DEPTH_TEST);
     
     /* ======
@@ -46,6 +59,33 @@ int main() {
     cube.triangles.push_back({ p(-0.5f, -0.5f,  0.5f, 0,1), p( 0.5f, -0.5f, -0.5f, 1,0), p( 0.5f, -0.5f,  0.5f, 1,1) });
 
     render.verticesMan.add(cube);
+
+    rendering::object cubeB;
+
+    // 8 corners of the cube, each side as 2 triangles
+    // Front (z = +0.5)
+    cubeB.triangles.push_back({ p(-0.5f,  0.5f,  0.5f, 0,1), p(-0.5f, -0.5f,  0.5f, 0,0), p( 0.5f, -0.5f,  0.5f, 1,0) });
+    cubeB.triangles.push_back({ p(-0.5f,  0.5f,  0.5f, 0,1), p( 0.5f, -0.5f,  0.5f, 1,0), p( 0.5f,  0.5f,  0.5f, 1,1) });
+    // Rear (z = -0.5)
+    cubeB.triangles.push_back({ p( 0.5f,  0.5f, -0.5f, 0,1), p( 0.5f, -0.5f, -0.5f, 0,0), p(-0.5f, -0.5f, -0.5f, 1,0) });
+    cubeB.triangles.push_back({ p( 0.5f,  0.5f, -0.5f, 0,1), p(-0.5f, -0.5f, -0.5f, 1,0), p(-0.5f,  0.5f, -0.5f, 1,1) });
+    // Left (x = -0.5)
+    cubeB.triangles.push_back({ p(-0.5f,  0.5f, -0.5f, 0,1), p(-0.5f, -0.5f, -0.5f, 0,0), p(-0.5f, -0.5f,  0.5f, 1,0) });
+    cubeB.triangles.push_back({ p(-0.5f,  0.5f, -0.5f, 0,1), p(-0.5f, -0.5f,  0.5f, 1,0), p(-0.5f,  0.5f,  0.5f, 1,1) });
+    // Right (x = +0.5)
+    cubeB.triangles.push_back({ p( 0.5f,  0.5f,  0.5f, 0,1), p( 0.5f, -0.5f,  0.5f, 0,0), p( 0.5f, -0.5f, -0.5f, 1,0) });
+    cubeB.triangles.push_back({ p( 0.5f,  0.5f,  0.5f, 0,1), p( 0.5f, -0.5f, -0.5f, 1,0), p( 0.5f,  0.5f, -0.5f, 1,1) });
+    // Top (y = +0.5)
+    cubeB.triangles.push_back({ p(-0.5f,  0.5f, -0.5f, 0,1), p(-0.5f,  0.5f,  0.5f, 0,0), p( 0.5f,  0.5f,  0.5f, 1,0) });
+    cubeB.triangles.push_back({ p(-0.5f,  0.5f, -0.5f, 0,1), p( 0.5f,  0.5f,  0.5f, 1,0), p( 0.5f,  0.5f, -0.5f, 1,1) });
+    // Bottom (y = -0.5)
+    cubeB.triangles.push_back({ p(-0.5f, -0.5f,  0.5f, 0,1), p(-0.5f, -0.5f, -0.5f, 0,0), p( 0.5f, -0.5f, -0.5f, 1,0) });
+    cubeB.triangles.push_back({ p(-0.5f, -0.5f,  0.5f, 0,1), p( 0.5f, -0.5f, -0.5f, 1,0), p( 0.5f, -0.5f,  0.5f, 1,1) });
+
+
+    cubeB.position = glm::vec3(2.0f, 0.0f, 0.0f); // zweiter Würfel 2 Einheiten rechts
+    cubeB.rotation = glm::vec3(0.0f, 45.0f, 0.0f); // 45 Grad gedreht
+    render.verticesMan.add(cubeB);
 
     
     // Game Loop

@@ -31,14 +31,13 @@ int rendering::update() {
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glUseProgram(shaderProgram);
-    applyCamera();
     glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
     glBindVertexArray(VAO);
     glBindTexture(GL_TEXTURE_2D, mainTexture);
     
     // send View and Projection to the Shaders
     glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-    glm::mat4 projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 100.0f);
+    glm::mat4 projection = glm::perspective(glm::radians(fov), (float)windowWidth / (float)windowHeight, 0.1f, 100.0f);
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"),       1, GL_FALSE, glm::value_ptr(view));
     glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 
@@ -102,7 +101,7 @@ rendering::rendering() {
 
 
     int width, height, channels;
-    unsigned char* data = stbi_load("../assets/textures/test3.png", &width, &height, &channels, 0);
+    unsigned char* data = stbi_load("../assets/textures/test1.png", &width, &height, &channels, 0);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
     glGenerateMipmap(GL_TEXTURE_2D);
@@ -176,31 +175,31 @@ std::string rendering::loadShader(const char* path) {
     return buffer.str(); // make the buffer into a string and return it
 }
 
-void rendering::applyCamera() {
-    glm::mat4 model = glm::mat4(1.0f);
-    model = glm::rotate(
-        model,                           // die Matrix die wir verändern
-        (float)glfwGetTime(),            // Winkel – glfwGetTime() gibt Sekunden seit Start zurück, also dreht er sich kontinuierlich
-        glm::vec3(0.5f, 1.0f, 0.0f)     // Achse um die gedreht wird (x, y, z)
-    );
-
-    glm::mat4 view = glm::lookAt(
-        cameraPos,
-        cameraPos + cameraFront,
-        cameraUp
-    );
-
-    glm::mat4 projection = glm::perspective(
-        glm::radians(fov),
-        800.0f / 600.0f,
-        0.1f,
-        100.0f
-    );
-
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "model"),      1, GL_FALSE, glm::value_ptr(model));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "view"),       1, GL_FALSE, glm::value_ptr(view));
-    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+// camera
+void rendering::moveCamera(float x, float y, float z) {
+    cameraPos += x * glm::normalize(glm::cross(cameraFront, cameraUp));
+    cameraPos += y * cameraUp;                                          
+    cameraPos += z * cameraFront; 
 }
+void rendering::teleportCamera(float x, float y, float z) {
+    cameraPos = x * glm::normalize(glm::cross(cameraFront, cameraUp));
+    cameraPos = y * cameraUp;                                          
+    cameraPos = z * cameraFront; 
+}
+
+void rendering::rotateCamera(float yawOffset, float pitchOffset) {
+    cameraYaw    += yawOffset;
+    cameraPitch  += pitchOffset;
+    
+    float yaw     = glm::radians(cameraYaw);
+    float pitch   = glm::radians(cameraPitch);
+
+    cameraFront.x = cos(yaw) * cos(pitch);
+    cameraFront.y = sin(pitch);
+    cameraFront.z = sin(yaw) * cos(pitch);
+
+    cameraFront   = glm::normalize(cameraFront);
+};
 
 // verticesManager functions
 int rendering::verticesManager::add(rendering::object object) {

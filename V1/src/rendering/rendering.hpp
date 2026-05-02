@@ -26,10 +26,21 @@ private:
     void applyCamera();
 
 public:
+    int windowWidth  = 800;
+    int windowHeight = 600;
+
     glm::vec3 cameraPos;
     glm::vec3 cameraFront;
     glm::vec3 cameraUp;
     float fov;
+
+    float cameraYaw   = -90.0f;
+    float cameraPitch = 0.0f;
+
+    void moveCamera(float x, float y, float z);
+    void teleportCamera(float x, float y, float z);
+
+    void rotateCamera(float yawOffset, float pitchOffset);
     
     struct verticesPoint {
         float x;
