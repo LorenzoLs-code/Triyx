@@ -13,6 +13,7 @@ int main() {
     GLFWwindow* window = glfwCreateWindow(800, 600, "Triyx", NULL, NULL); // Create a window
     glfwMakeContextCurrent(window); // show the window
     rendering render;
+    glEnable(GL_DEPTH_TEST);
     
     /* ======
         Cube
