@@ -73,6 +73,7 @@ Execute:
 - OpenGL
 - GLFW3
 - GLEW
+- libglm-dev
 
 [3D_]: https://en.wikipedia.org/wiki/3D
 [C++_]: https://en.wikipedia.org/wiki/C%2B%2B
